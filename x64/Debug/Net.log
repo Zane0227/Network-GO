@@ -1,0 +1,7 @@
+﻿  Go.cpp
+E:\大二下\sfmla\Net\Go.cpp(826,73): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+E:\大二下\sfmla\Net\Go.cpp(826,43): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+E:\大二下\sfmla\Net\Go.cpp(831,73): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+E:\大二下\sfmla\Net\Go.cpp(831,43): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+E:\大二下\sfmla\Net\Go.cpp(472): warning C4715: “Go::checkPoint”: 不是所有的控件路径都返回值
+  Net.vcxproj -> E:\大二下\sfmla\Net\x64\Debug\Net.exe
