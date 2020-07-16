@@ -12,8 +12,15 @@ class Go
 
 private:
 	sf::Texture tBackGround,
+		tChooseBack,
 		tWhiteStone,
 		tBlackStone,
+		tLocal,//本地游戏
+		tLocalSel,
+		tOnline,//在线游戏
+		tOnlineSel,
+		tExit,//退出游戏
+		tExitSel,
 		tButtonRestart,//重新开局
 		tButtonRestartSel,
 		tButtonRegret,//悔棋
@@ -28,8 +35,15 @@ private:
 		tWinWhite;
 
 	sf::Sprite	sBackGround,
+		sChooseBack,
 		sWhiteStone,
 		sBlackStone,
+		sLocal,//本地游戏
+		sLocalSel,
+		sOnline,//在线游戏
+		sOnlineSel,
+		sExit,//退出
+		sExitSel,
 		sButtonRestart,//重新开局
 		sButtonRegret,//悔棋
 		sButtonIsWin,//结算
@@ -42,7 +56,10 @@ private:
 		rectButtonRegret,
 		rectButtonIsWin,
 		rectButtonPVP,
-		rectButtonPVE;
+		rectButtonPVE,
+		recButtonLocal,
+		recButtonOnline,
+		recButtonExit;
 
 public:
 	Go();
@@ -73,6 +90,7 @@ public:
 
 	void Draw();
 	void DrawEnd();
+	void DrawChooseButton();
 	void DrawButton();
 	void drawBlackWin();
 	void drawWhiteWin();

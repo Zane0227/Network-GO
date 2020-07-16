@@ -29,7 +29,7 @@ Go::~Go()
 //初始化变量
 void Go::Initial()
 {
-	gameStart = true;
+	gameStart = false;
 	gameOver = false;
 	gameQuit = false;
 	isPVE = 0;
@@ -63,6 +63,11 @@ void Go::LoadMediaData()
 		std::cout << "背景图没有找到" << std::endl;
 	sBackGround.setTexture(tBackGround);
 
+	//加载开始背景
+	if (!tChooseBack.loadFromFile("data/images/Start.png"))
+		std::cout << "开始选择图没有找到" << std::endl;
+	sChooseBack.setTexture(tChooseBack);
+
 	//设定白子精灵
 	if (!tWhiteStone.loadFromFile("data/images/white_stone.png"))
 		std::cout << "白子图没有找到" << std::endl;
@@ -74,6 +79,27 @@ void Go::LoadMediaData()
 		std::cout << "黑子图没有找到" << std::endl;
 	sBlackStone.setTexture(tBlackStone);
 	sBlackStone.setOrigin(15, 15);
+
+	//加载本地游戏按钮
+	if (!tLocal.loadFromFile("data/images/本地游戏.png"))
+		std::cout << "本地游戏按钮图没有找到" << std::endl;
+	if (!tLocalSel.loadFromFile("data/images/本地游戏选中.png"))
+		std::cout << "重新开始选中按钮图没有找到" << std::endl;
+	sLocal.setTexture(tLocal);
+
+	//加载在线游戏按钮
+	if (!tOnline.loadFromFile("data/images/在线游戏.png"))
+		std::cout << "在线游戏按钮图没有找到" << std::endl;
+	if (!tOnlineSel.loadFromFile("data/images/在线游戏选中.png"))
+		std::cout << "在线游戏选中按钮图没有找到" << std::endl;
+	sOnline.setTexture(tOnline);
+
+	//加载退出游戏按钮
+	if (!tExit.loadFromFile("data/images/退出.png"))
+		std::cout << "退出按钮图没有找到" << std::endl;
+	if (!tExitSel.loadFromFile("data/images/退出选中.png"))
+		std::cout << "退出选中按钮图没有找到" << std::endl;
+	sExit.setTexture(tExit);
 
 	//加载重新开始按钮
 	if (!tButtonRestart.loadFromFile("data/images/重新开始.jpg"))
@@ -151,91 +177,147 @@ void Go::Input()
 		mousePosition.x = sf::Mouse::getPosition(window).x;
 		mousePosition.y = sf::Mouse::getPosition(window).y;
 
-		//左释放
-		if (event.type == sf::Event::EventType::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left)
+		//=======================游戏没开始的选择界面=================================//
+		if (!gameStart)
 		{
-			if (!gameOver)
+			if (event.type == sf::Event::EventType::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left)
 			{
-				
-				Go::LBtnDown(mousePosition);
-
-				//
-				if (rectButtonRestart.contains(event.mouseButton.x, event.mouseButton.y))
+				if (recButtonLocal.contains(event.mouseButton.x, event.mouseButton.y))
 				{
-					Initial();
+					gameStart = true;
 				}
-				if (rectButtonRegret.contains(mousePosition.x, mousePosition.y))
-				{
-					regretChess();
-				}
-				if (rectButtonIsWin.contains(mousePosition.x, mousePosition.y))
-				{
-					isWin();
-				}
-				if (rectButtonPVP.contains(mousePosition.x, mousePosition.y))
+				if (recButtonOnline.contains(event.mouseButton.x, event.mouseButton.y))
 				{
 					
-					Initial();
-					isPVE = 0;
 				}
-				if (rectButtonPVE.contains(mousePosition.x, mousePosition.y))
+				if (recButtonExit.contains(event.mouseButton.x, event.mouseButton.y))
 				{
-					Initial();
-					isPVE = 1;
+					gameQuit = true;
+					window.close();
 				}
+			}
+			//移过本地游戏按钮动画
+			if (recButtonLocal.contains(mousePosition.x, mousePosition.y))
+			{
+				sLocal.setTexture(tLocalSel);
 			}
 			else
 			{
-				Initial();
+				sLocal.setTexture(tLocal);
+			}
+
+			//移过重新开始按钮动画
+			if (recButtonOnline.contains(mousePosition.x, mousePosition.y))
+			{
+				sOnline.setTexture(tOnlineSel);
+			}
+			else
+			{
+				sOnline.setTexture(tOnline);
+			}
+
+			//移过退出按钮动画
+			if (recButtonExit.contains(mousePosition.x, mousePosition.y))
+			{
+				sExit.setTexture(tExitSel);
+			}
+			else
+			{
+				sExit.setTexture(tExit);
 			}
 		}
+		//=======================游戏开始界面==============================================//
+		else
+		{
+			//左释放
+			if (event.type == sf::Event::EventType::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left)
+			{
+				if (!gameOver)
+				{
 
-		//移过重新开始按钮动画
-		if (rectButtonRestart.contains(mousePosition.x, mousePosition.y))
-		{
-			sButtonRestart.setTexture(tButtonRestartSel);
+					Go::LBtnDown(mousePosition);
+
+					//
+					if (rectButtonRestart.contains(event.mouseButton.x, event.mouseButton.y))
+					{
+						Initial();
+					}
+					if (rectButtonRegret.contains(mousePosition.x, mousePosition.y))
+					{
+						regretChess();
+					}
+					if (rectButtonIsWin.contains(mousePosition.x, mousePosition.y))
+					{
+						isWin();
+					}
+					if (rectButtonPVP.contains(mousePosition.x, mousePosition.y))
+					{
+
+						Initial();
+						gameStart = true;
+						isPVE = 0;
+					}
+					if (rectButtonPVE.contains(mousePosition.x, mousePosition.y))
+					{
+						Initial();
+						gameStart = true;
+						isPVE = 1;
+					}
+				}
+				else
+				{
+					Initial();
+				}
+			}
+
+			//移过重新开始按钮动画
+			if (rectButtonRestart.contains(mousePosition.x, mousePosition.y))
+			{
+				sButtonRestart.setTexture(tButtonRestartSel);
+			}
+			else
+			{
+				sButtonRestart.setTexture(tButtonRestart);
+			}
+			//移过悔棋按钮动画
+			if (rectButtonRegret.contains(mousePosition.x, mousePosition.y))
+			{
+				sButtonRegret.setTexture(tButtonRegretSel);
+			}
+			else
+			{
+				sButtonRegret.setTexture(tButtonRegret);
+			}
+			//移过人机对弈按钮动画
+			if (rectButtonPVE.contains(mousePosition.x, mousePosition.y))
+			{
+				sButtonPVE.setTexture(tButtonPVESel);
+			}
+			else
+			{
+				sButtonPVE.setTexture(tButtonPVE);
+			}
+			//移过人人对弈按钮动画
+			if (rectButtonPVP.contains(mousePosition.x, mousePosition.y))
+			{
+				sButtonPVP.setTexture(tButtonPVPSel);
+			}
+			else
+			{
+				sButtonPVP.setTexture(tButtonPVP);
+			}
+			//移过结算按钮动画
+			if (rectButtonIsWin.contains(mousePosition.x, mousePosition.y))
+			{
+				sButtonIsWin.setTexture(tButtonIsWinSel);
+			}
+			else
+			{
+				sButtonIsWin.setTexture(tButtonIsWin);
+			}
 		}
-		else
-		{
-			sButtonRestart.setTexture(tButtonRestart);
 		}
-		//移过悔棋按钮动画
-		if (rectButtonRegret.contains(mousePosition.x, mousePosition.y))
-		{
-			sButtonRegret.setTexture(tButtonRegretSel);
-		}
-		else
-		{
-			sButtonRegret.setTexture(tButtonRegret);
-		}
-		//移过人机对弈按钮动画
-		if (rectButtonPVE.contains(mousePosition.x, mousePosition.y))
-		{
-			sButtonPVE.setTexture(tButtonPVESel);
-		}
-		else
-		{
-			sButtonPVE.setTexture(tButtonPVE);
-		}
-		//移过人人对弈按钮动画
-		if (rectButtonPVP.contains(mousePosition.x, mousePosition.y))
-		{
-			sButtonPVP.setTexture(tButtonPVPSel);
-		}
-		else
-		{
-			sButtonPVP.setTexture(tButtonPVP);
-		}
-		//移过结算按钮动画
-		if (rectButtonIsWin.contains(mousePosition.x, mousePosition.y))
-		{
-			sButtonIsWin.setTexture(tButtonIsWinSel);
-		}
-		else
-		{
-			sButtonIsWin.setTexture(tButtonIsWin);
-		}
-	}
+	
 }
 
 void Go::LBtnDown(sf::Vector2i mPosition)
@@ -260,9 +342,6 @@ void Go::LBtnDown(sf::Vector2i mPosition)
 			if(Drop(x, y))
 				AIDrop();
 		}
-
-
-
 	}
 
 
@@ -271,6 +350,7 @@ void Go::LBtnDown(sf::Vector2i mPosition)
 //=================================  逻辑  ===================================//
 void Go::Logic()
 {
+
 }
 
 //落子
@@ -814,7 +894,9 @@ void Go::Draw()
 	// ==================游戏还没开始，选择在线或离线==================//
 	if (!gameStart)
 	{
-
+		sChooseBack.setPosition(-1, -1);
+		window.draw(sChooseBack);
+		DrawChooseButton();
 	}
 	// ==================游戏开始==================//
 	else
@@ -850,6 +932,33 @@ void Go::Draw()
 	window.display();
 }
 
+void Go::DrawChooseButton()
+{
+	//选择本地游戏
+	sLocal.setPosition(355, 137);
+	recButtonLocal.left = 355;
+	recButtonLocal.top = 137;
+	recButtonLocal.height = 66;
+	recButtonLocal.width = 311;
+	window.draw(sLocal);
+	
+	//选择在线游戏
+	sOnline.setPosition(355, 298);
+	recButtonOnline.left = 355;
+	recButtonOnline.top = 298;
+	recButtonOnline.height = 66;
+	recButtonOnline.width = 311;
+	window.draw(sOnline);
+
+	//退出游戏
+	sExit.setPosition(355, 455);
+	recButtonExit.left = 355;
+	recButtonExit.top = 455;
+	recButtonExit.height = 66;
+	recButtonExit.width = 311;
+	window.draw(sExit);
+}
+
 void Go::DrawButton()
 {
 	//绘制重新开始按钮
@@ -875,7 +984,7 @@ void Go::DrawButton()
 	rectButtonIsWin.height = 50;
 	rectButtonIsWin.width = 100;
 	window.draw(sButtonIsWin);
-
+	
 	//绘制人机对弈按钮
 	sButtonPVE.setPosition(650, 540);
 	rectButtonPVE.left = 650;

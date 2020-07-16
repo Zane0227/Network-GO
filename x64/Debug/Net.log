@@ -1,10 +1,7 @@
-﻿  globle.cpp
-  Go.cpp
-C:\Users\53149\Documents\GitHub\Network-GO\Go.cpp(834,74): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
-C:\Users\53149\Documents\GitHub\Network-GO\Go.cpp(834,44): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
-C:\Users\53149\Documents\GitHub\Network-GO\Go.cpp(839,74): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
-  源.cpp
-  正在生成代码...
-C:\Users\53149\Documents\GitHub\Network-GO\Go.cpp(839,44): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
-C:\Users\53149\Documents\GitHub\Network-GO\Go.cpp(473): warning C4715: “Go::checkPoint”: 不是所有的控件路径都返回值
+﻿  Go.cpp
+C:\Users\53149\Documents\GitHub\Network-GO\Go.cpp(916,74): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+C:\Users\53149\Documents\GitHub\Network-GO\Go.cpp(916,44): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+C:\Users\53149\Documents\GitHub\Network-GO\Go.cpp(921,74): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+C:\Users\53149\Documents\GitHub\Network-GO\Go.cpp(921,44): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+C:\Users\53149\Documents\GitHub\Network-GO\Go.cpp(553): warning C4715: “Go::checkPoint”: 不是所有的控件路径都返回值
   Net.vcxproj -> C:\Users\53149\Documents\GitHub\Network-GO\x64\Debug\Net.exe
